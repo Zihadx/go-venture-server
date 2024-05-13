@@ -35,6 +35,9 @@ const destinationsSchema = new Schema<IDestination>({
     type: Date,
     required: true,
   },
+  durationHour:{
+    type: Number
+  },
   locations: {
     city: {
       type: String,
@@ -57,6 +60,15 @@ const destinationsSchema = new Schema<IDestination>({
   packagePrice: { type: Number, required: true },
   nearbyHotels: [{ type: Schema.Types.ObjectId, ref: 'Hotel' }],
   attractions: { type: [String], required: true },
+},
+{
+  toJSON: {virtuals: true},
+  toObject: {virtuals: true}
+}
+)
+
+destinationsSchema.virtual('durationDays').get(function(){
+  return Math.floor(this.durationHour/24)
 })
 
 export const Destinations = mongoose.model<IDestination>('Destinations', destinationsSchema)

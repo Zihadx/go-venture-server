@@ -9,6 +9,7 @@ interface IDestination {
   createAt: Date
   startDate: Date[]
   endDate: Date
+  durationHour: number
   startLocation: string
   locations: {
     city: string
