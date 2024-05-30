@@ -42,6 +42,7 @@ const destinationsSchema = new Schema<IDestination>({
     city: {
       type: String,
       required: true,
+      unique:true,
     },
     country: {
       countryId: {

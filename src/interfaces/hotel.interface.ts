@@ -10,7 +10,7 @@ interface IHotel {
   image: string[]
   ratingAverage: number
   category: string
-  priceRage: {
+  priceRange: {
     min: number
     max: number
   }

@@ -16,10 +16,6 @@ const countrySchema = new Schema<ICountry>({
     type: String,
     required: true,
   },
-  bannerImage: {
-    type: String,
-    required: true,
-  },
   title: {
     type: String,
     required: true,

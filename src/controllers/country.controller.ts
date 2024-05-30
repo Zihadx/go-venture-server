@@ -4,9 +4,9 @@ import { countryServices } from '../services/country.service'
 
 const createCountry = async (req: Request, res: Response) => {
   try {
-    const userData = req.body
+    const countryData = req.body
 
-    const result = await countryServices.createCountry(userData)
+    const result = await countryServices.createCountry(countryData)
     res.status(201).json({
       status: 'Success',
       massage: 'Country Created successfully',
@@ -63,7 +63,7 @@ const updateCountry = async (req: Request, res: Response) => {
     const result = await countryServices.updateCountry(id, countryData)
     res.status(201).json({
       status: 'Success',
-      massage: 'User updated successfully',
+      massage: 'Country updated successfully',
       data: result,
     })
   } catch (error: any) {
@@ -81,7 +81,7 @@ const deleteCountry = async (req: Request, res: Response) => {
     await countryServices.deleteCountry(id)
     res.status(200).json({
       status: 'Success',
-      massage: 'User deleted successfully',
+      massage: 'Country deleted successfully',
     })
   } catch (error: any) {
     console.log(error)

@@ -1,10 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
-import { IHotel } from '../interfaces/hotel.interface';
+import mongoose, { Schema } from 'mongoose'
+import { IHotel } from '../interfaces/hotel.interface'
 
 const hotelSchema = new Schema<IHotel>({
   id: {
     type: String,
     required: true,
+    unique: true,
   },
   name: {
     type: String,
@@ -37,7 +38,7 @@ const hotelSchema = new Schema<IHotel>({
     type: String,
     required: true,
   },
-  priceRage: {
+  priceRange: {
     min: {
       type: Number,
       required: true,
@@ -51,6 +52,6 @@ const hotelSchema = new Schema<IHotel>({
     type: [String],
     required: true,
   },
-});
+})
 
-export const Hotels = mongoose.model<IHotel>('Hotel', hotelSchema);
+export const Hotels = mongoose.model<IHotel>('Hotel', hotelSchema)
