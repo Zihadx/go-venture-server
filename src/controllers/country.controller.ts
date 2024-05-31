@@ -92,10 +92,30 @@ const deleteCountry = async (req: Request, res: Response) => {
   }
 }
 
+
+
+const getDestinationsByCountry = async (req: Request, res: Response): Promise<void> => {
+  const countryId = req.params.id;
+  try {
+    const destinations = await countryServices.getAllDestinationsByCountry(countryId);
+    res.status(200).json(destinations);
+  } catch (error: any) {
+    console.log(error)
+    res.status(500).json({
+      status: 'fail',
+      massage: error.massage || 'Something went wrong',
+    })
+  }
+};
+
+
+
+
 export const countryController = {
   createCountry,
   getAllCountries,
   getSingleCountry,
   updateCountry,
   deleteCountry,
+  getDestinationsByCountry
 }

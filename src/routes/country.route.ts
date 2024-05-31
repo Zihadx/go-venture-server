@@ -8,5 +8,6 @@ router.get('/', countryController.getAllCountries)
 router.get('/:id', countryController.getSingleCountry)
 router.patch('/:id', countryController.updateCountry)
 router.delete('/:id', countryController.deleteCountry)
+router.get('/:id/destinations', countryController.getDestinationsByCountry);
 
 export const countryRoutes = router
