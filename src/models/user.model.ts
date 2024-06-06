@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import { IUser } from '../interfaces/user.interface'
+import { ACCOUNT_STATUS, USER_ROLE } from '../constants/users.constant'
 
 const userSchema = new Schema<IUser>({
   name: {
@@ -12,13 +13,20 @@ const userSchema = new Schema<IUser>({
     unique: true,
     required: [true, 'Please tell us your email'],
     lowercase: true,
-  
   },
   age: {
     type: Number,
     required: [true, 'Please tell your age'],
   },
-  passwordHash: String,
+  password: {
+    type: String,
+    required: [true, 'Please provide your password'],
+    select: 0
+  },
+  passwordUpdateAt: {
+    type: Date,
+    default: null,
+  },
   profileInfo: {
     phoneNumber: {
       type: String,
@@ -28,17 +36,15 @@ const userSchema = new Schema<IUser>({
   },
   role: {
     type: String,
-    enum: ['admin', 'user'],
-    default: 'user',
+    enum: Object.values(USER_ROLE),
+    default: USER_ROLE.user,
   },
-  bookings: [String],
   status: {
     type: String,
-    enum: ['active', 'inactive'],
-    default: 'active',
+    enum: Object.values(ACCOUNT_STATUS),
+    default: ACCOUNT_STATUS.active,
   },
 })
-
 
 const Users = model<IUser>('Users', userSchema)
 

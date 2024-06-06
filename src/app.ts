@@ -1,27 +1,23 @@
 import express, { Application, Request, Response } from 'express'
 
 import cors from 'cors'
-import { userRoutes } from './routes/user.route'
-import { destinationRouter } from './routes/destination.route'
-import { hotelRoutes } from './routes/hotel.route'
-import { countryRoutes } from './routes/country.route'
-import { blogRoutes } from './routes/blog.route'
-import { offerRoutes } from './routes/offer.route'
+import globalErrorHandler from './middlewares/globalErrorHandler'
+import notFound from './middlewares/notFound'
+import globalRoute from './routes'
 
 const app: Application = express()
 app.use(express.json())
 app.use(cors())
 
-app.use('/api/v1/users', userRoutes)
-app.use('/api/v1/destinations', destinationRouter)
-app.use('/api/v1/hotels', hotelRoutes)
-app.use('/api/v1/countries', countryRoutes)
-app.use('/api/v1/blogs', blogRoutes)
-app.use('/api/v1/offers', offerRoutes)
+//---Managed global route for organized code----
+app.use('/api/v1', globalRoute)
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to go-venture family!')
 })
+
+app.use(notFound)
+app.use(globalErrorHandler)
 
 export default app
 

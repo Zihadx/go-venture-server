@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { destinationService } from '../services/destination.service'
 
 const createDestination = async (req: Request, res: Response) => {
@@ -21,22 +21,28 @@ const createDestination = async (req: Request, res: Response) => {
   }
 }
 
-const getAllDestination = async (req: Request, res: Response) => {
+const getAllDestination = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await destinationService.getAllDestination()
+    const filters = req.query;
+
+    const result = await destinationService.getAllDestination(filters);
+    // throw new Error ('Something went wrong')
     res.status(200).json({
       status: 'Success',
-      massage: 'All Destinations fetched successfully',
+      message: 'All Destinations fetched successfully',
       data: result,
-    })
+    });
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
+
+    // res.status(500).json({
+    //   status: 'fail',
+    //   message: error.message || 'Something went wrong',
+    // });
   }
-}
+};
+
 
 const getSingleDestination = async (req: Request, res: Response) => {
   try {

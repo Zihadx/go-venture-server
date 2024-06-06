@@ -10,4 +10,4 @@ router.patch('/:id', destinationController.updateDestination)
 router.delete('/:id', destinationController.deleteDestination)
 
 
-export const destinationRouter = router
+export const destinationRoutes = router

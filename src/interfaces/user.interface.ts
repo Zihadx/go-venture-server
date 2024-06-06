@@ -8,9 +8,9 @@ interface IUser {
   age: number
   email: string
   profileInfo: UserProfile
-  passwordHash: string
+  password: string,
+  passwordUpdateAt: Date,
   role: 'admin' | 'user'
-  bookings: string[]
   status: 'active' | 'inactive'
 }
 
