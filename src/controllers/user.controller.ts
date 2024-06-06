@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 // import userModel from '../models/user.model'
 import { userServices } from '../services/user.service'
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userData = req.body
 
@@ -15,18 +15,11 @@ const createUser = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
 
-
-
-
-
-const getAllUsers = async (req: Request, res: Response) => {
+const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await userServices.getAllUsers()
     res.status(200).json({
@@ -36,13 +29,14 @@ const getAllUsers = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
-const getSingleUser = async (req: Request, res: Response) => {
+const getSingleUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.id
 
@@ -54,13 +48,10 @@ const getSingleUser = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
-const updateUser = async (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userData = req.body
     const id = req.params.id
@@ -73,13 +64,10 @@ const updateUser = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
-const deleteUser = async (req: Request, res: Response) => {
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id
 
@@ -90,10 +78,7 @@ const deleteUser = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
 

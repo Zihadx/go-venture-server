@@ -2,7 +2,11 @@
 import { NextFunction, Request, Response } from 'express'
 import { destinationService } from '../services/destination.service'
 
-const createDestination = async (req: Request, res: Response) => {
+const createDestination = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const destinationData = req.body
 
@@ -14,37 +18,36 @@ const createDestination = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
 
-const getAllDestination = async (req: Request, res: Response, next: NextFunction) => {
+const getAllDestination = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const filters = req.query;
+    const filters = req.query
 
-    const result = await destinationService.getAllDestination(filters);
+    const result = await destinationService.getAllDestination(filters)
     // throw new Error ('Something went wrong')
     res.status(200).json({
       status: 'Success',
       message: 'All Destinations fetched successfully',
       data: result,
-    });
+    })
   } catch (error: any) {
     console.log(error)
     next(error)
-
-    // res.status(500).json({
-    //   status: 'fail',
-    //   message: error.message || 'Something went wrong',
-    // });
   }
-};
+}
 
-
-const getSingleDestination = async (req: Request, res: Response) => {
+const getSingleDestination = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.id
 
@@ -56,13 +59,14 @@ const getSingleDestination = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
-const updateDestination = async (req: Request, res: Response) => {
+const updateDestination = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userData = req.body
     const id = req.params.id
@@ -75,13 +79,14 @@ const updateDestination = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
-const deleteDestination = async (req: Request, res: Response) => {
+const deleteDestination = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.id
 
@@ -92,10 +97,7 @@ const deleteDestination = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
 

@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { countryServices } from '../services/country.service'
 
-const createCountry = async (req: Request, res: Response) => {
+const createCountry = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const countryData = req.body
 
@@ -14,14 +18,15 @@ const createCountry = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
 
-const getAllCountries = async (req: Request, res: Response) => {
+const getAllCountries = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const result = await countryServices.getAllCountries()
     res.status(200).json({
@@ -31,13 +36,14 @@ const getAllCountries = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
-const getSingleCountry = async (req: Request, res: Response) => {
+const getSingleCountry = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.id
 
@@ -49,13 +55,14 @@ const getSingleCountry = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
-const updateCountry = async (req: Request, res: Response) => {
+const updateCountry = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const countryData = req.body
     const id = req.params.id
@@ -68,13 +75,14 @@ const updateCountry = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
-const deleteCountry = async (req: Request, res: Response) => {
+const deleteCountry = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.id
 
@@ -85,20 +93,19 @@ const deleteCountry = async (req: Request, res: Response) => {
     })
   } catch (error: any) {
     console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
-    })
+    next(error)
   }
 }
 
-
-
-const getDestinationsByCountry = async (req: Request, res: Response): Promise<void> => {
-  const countryId = req.params.id;
+const getDestinationsByCountry = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const countryId = req.params.id
   try {
-    const destinations = await countryServices.getAllDestinationsByCountry(countryId);
-    res.status(200).json(destinations);
+    const destinations =
+      await countryServices.getAllDestinationsByCountry(countryId)
+    res.status(200).json(destinations)
   } catch (error: any) {
     console.log(error)
     res.status(500).json({
@@ -106,10 +113,7 @@ const getDestinationsByCountry = async (req: Request, res: Response): Promise<vo
       massage: error.massage || 'Something went wrong',
     })
   }
-};
-
-
-
+}
 
 export const countryController = {
   createCountry,
@@ -117,5 +121,5 @@ export const countryController = {
   getSingleCountry,
   updateCountry,
   deleteCountry,
-  getDestinationsByCountry
+  getDestinationsByCountry,
 }

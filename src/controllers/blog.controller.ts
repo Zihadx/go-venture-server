@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { blogServices } from '../services/blog.service';
 
-const createBlog = async (req: Request, res: Response) => {
+const createBlog = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const blogData = req.body;
 
@@ -14,14 +14,11 @@ const createBlog = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.log(error);
-    res.status(500).json({
-      status: 'fail',
-      message: error.message || 'Something went wrong',
-    });
+    next(error)
   }
 };
 
-const getAllBlogs = async (req: Request, res: Response) => {
+const getAllBlogs = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await blogServices.getAllBlogs();
     res.status(200).json({
@@ -31,14 +28,11 @@ const getAllBlogs = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.log(error);
-    res.status(500).json({
-      status: 'fail',
-      message: error.message || 'Something went wrong',
-    });
+    next(error)
   }
 };
 
-const getSingleBlog = async (req: Request, res: Response) => {
+const getSingleBlog = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
 
@@ -50,14 +44,11 @@ const getSingleBlog = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.log(error);
-    res.status(500).json({
-      status: 'fail',
-      message: error.message || 'Something went wrong',
-    });
+    next(error)
   }
 };
 
-const updateBlog = async (req: Request, res: Response) => {
+const updateBlog = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const blogData = req.body;
     const id = req.params.id;
@@ -70,14 +61,11 @@ const updateBlog = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.log(error);
-    res.status(500).json({
-      status: 'fail',
-      message: error.message || 'Something went wrong',
-    });
+    next(error)
   }
 };
 
-const deleteBlog = async (req: Request, res: Response) => {
+const deleteBlog = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
 
@@ -88,10 +76,7 @@ const deleteBlog = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.log(error);
-    res.status(500).json({
-      status: 'fail',
-      message: error.message || 'Something went wrong',
-    });
+    next(error)
   }
 };
 
