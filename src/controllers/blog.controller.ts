@@ -1,84 +1,68 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { blogServices } from '../services/blog.service';
+import catchAsyncFunction from '../utils/catchAsync';
+import sendSuccessResponse from '../utils/sendSuccessResponse';
 
-const createBlog = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+const createBlog = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const blogData = req.body;
-
     const result = await blogServices.createBlog(blogData);
-    res.status(201).json({
-      status: 'Success',
-      message: 'Blog Created successfully',
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: 'Blog created successfully',
       data: result,
     });
-  } catch (error: any) {
-    console.log(error);
-    next(error)
   }
-};
+);
 
-const getAllBlogs = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+const getAllBlogs = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const result = await blogServices.getAllBlogs();
-    res.status(200).json({
-      status: 'Success',
+    sendSuccessResponse(res, {
+      statusCode: 200,
       message: 'Blogs fetched successfully',
       data: result,
     });
-  } catch (error: any) {
-    console.log(error);
-    next(error)
   }
-};
+);
 
-const getSingleBlog = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+const getSingleBlog = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const id = req.params.id;
-
     const result = await blogServices.getSingleBlog(id);
-    res.status(200).json({
-      status: 'Success',
+    sendSuccessResponse(res, {
+      statusCode: 200,
       message: 'Single blog fetched successfully',
       data: result,
     });
-  } catch (error: any) {
-    console.log(error);
-    next(error)
   }
-};
+);
 
-const updateBlog = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+const updateBlog = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const blogData = req.body;
     const id = req.params.id;
-
     const result = await blogServices.updateBlog(id, blogData);
-    res.status(201).json({
-      status: 'Success',
+    sendSuccessResponse(res, {
+      statusCode: 201,
       message: 'Blog updated successfully',
       data: result,
     });
-  } catch (error: any) {
-    console.log(error);
-    next(error)
   }
-};
+);
 
-const deleteBlog = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+const deleteBlog = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const id = req.params.id;
-
     await blogServices.deleteBlog(id);
-    res.status(200).json({
-      status: 'Success',
+    sendSuccessResponse(res, {
+      statusCode: 200,
       message: 'Blog deleted successfully',
+      data: null,
     });
-  } catch (error: any) {
-    console.log(error);
-    next(error)
   }
-};
+);
 
 export const blogController = {
   createBlog,

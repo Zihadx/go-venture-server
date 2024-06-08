@@ -1,86 +1,68 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextFunction, Request, Response } from 'express'
-// import userModel from '../models/user.model'
+import { Request, Response } from 'express'
 import { userServices } from '../services/user.service'
+import catchAsyncFunction from '../utils/catchAsync'
+import sendSuccessResponse from '../utils/sendSuccessResponse'
 
-const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+const createUser = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const userData = req.body
-
     const result = await userServices.createUser(userData)
-    res.status(201).json({
-      status: 'Success',
-      massage: 'User Created successfully',
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: 'User created successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
+)
 
-const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+const getAllUsers = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const result = await userServices.getAllUsers()
-    res.status(200).json({
-      status: 'Success',
-      massage: 'User fetched successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'Users fetched successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
-const getSingleUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const id = req.params.id
+)
 
+const getSingleUser = catchAsyncFunction(
+  async (req: Request, res: Response) => {
+    const id = req.params.id
     const result = await userServices.getSingleUser(id)
-    res.status(200).json({
-      status: 'Success',
-      massage: 'Single User fetched successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'Single user fetched successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
-const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+)
+
+const updateUser = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const userData = req.body
     const id = req.params.id
-
     const result = await userServices.updateUser(id, userData)
-    res.status(201).json({
-      status: 'Success',
-      massage: 'User updated successfully',
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: 'User updated successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
-const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const id = req.params.id
+)
 
+const deleteUser = catchAsyncFunction(
+  async (req: Request, res: Response) => {
+    const id = req.params.id
     await userServices.deleteUser(id)
-    res.status(200).json({
-      status: 'Success',
-      massage: 'User deleted successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'User deleted successfully',
+      data: null,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
+)
 
 export const userController = {
   createUser,

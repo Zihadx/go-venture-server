@@ -1,4 +1,5 @@
 import { blogRoutes } from "../routes/blog.route";
+import { bookingRoutes } from "../routes/booking.route";
 import { countryRoutes } from "../routes/country.route";
 import { destinationRoutes } from "../routes/destination.route";
 import { hotelRoutes } from "../routes/hotel.route";
@@ -29,6 +30,10 @@ const routes = [
     {
         path: "/offers",
         route: offerRoutes
+    },
+    {
+        path: "/bookings",
+        route: bookingRoutes
     },
 ]
 

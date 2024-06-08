@@ -1,105 +1,69 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { destinationService } from '../services/destination.service'
+import catchAsyncFunction from '../utils/catchAsync'
+import sendSuccessResponse from '../utils/sendSuccessResponse'
 
-const createDestination = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+const createDestination = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const destinationData = req.body
-
     const result = await destinationService.createDestination(destinationData)
-    res.status(201).json({
-      status: 'Success',
-      massage: 'Destination Created successfully',
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: 'Destination created successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
+)
 
-const getAllDestination = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+const getAllDestination = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const filters = req.query
-
     const result = await destinationService.getAllDestination(filters)
-    // throw new Error ('Something went wrong')
-    res.status(200).json({
-      status: 'Success',
-      message: 'All Destinations fetched successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'All destinations fetched successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
+)
 
-const getSingleDestination = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+const getSingleDestination = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const id = req.params.id
-
     const result = await destinationService.getSingleDestination(id)
-    res.status(200).json({
-      status: 'Success',
-      massage: 'Single Destination fetched successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'Single destination fetched successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
-const updateDestination = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const userData = req.body
-    const id = req.params.id
+)
 
-    const result = await destinationService.updateDestination(id, userData)
-    res.status(201).json({
-      status: 'Success',
-      massage: 'Destination updated successfully',
+const updateDestination = catchAsyncFunction(
+  async (req: Request, res: Response) => {
+    const destinationData = req.body
+    const id = req.params.id
+    const result = await destinationService.updateDestination(id, destinationData)
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: 'Destination updated successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
-const deleteDestination = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const id = req.params.id
+)
 
+const deleteDestination = catchAsyncFunction(
+  async (req: Request, res: Response) => {
+    const id = req.params.id
     await destinationService.deleteDestination(id)
-    res.status(200).json({
-      status: 'Success',
-      massage: 'Destination deleted successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'Destination deleted successfully',
+      data: null,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
+)
 
 export const destinationController = {
   createDestination,

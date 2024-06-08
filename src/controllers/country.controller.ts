@@ -1,119 +1,80 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { countryServices } from '../services/country.service'
+import catchAsyncFunction from '../utils/catchAsync'
+import sendSuccessResponse from '../utils/sendSuccessResponse'
 
-const createCountry = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+const createCountry = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const countryData = req.body
-
     const result = await countryServices.createCountry(countryData)
-    res.status(201).json({
-      status: 'Success',
-      massage: 'Country Created successfully',
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: 'Country created successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
+)
 
-const getAllCountries = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+const getAllCountries = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const result = await countryServices.getAllCountries()
-    res.status(200).json({
-      status: 'Success',
-      massage: 'Countries fetched successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'Countries fetched successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
-const getSingleCountry = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const id = req.params.id
+)
 
+const getSingleCountry = catchAsyncFunction(
+  async (req: Request, res: Response) => {
+    const id = req.params.id
     const result = await countryServices.getSingleCountry(id)
-    res.status(200).json({
-      status: 'Success',
-      massage: 'Single country fetched successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'Single country fetched successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
-const updateCountry = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+)
+
+const updateCountry = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const countryData = req.body
     const id = req.params.id
-
     const result = await countryServices.updateCountry(id, countryData)
-    res.status(201).json({
-      status: 'Success',
-      massage: 'Country updated successfully',
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: 'Country updated successfully',
       data: result,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
-const deleteCountry = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+)
+
+const deleteCountry = catchAsyncFunction(
+  async (req: Request, res: Response) => {
     const id = req.params.id
-
     await countryServices.deleteCountry(id)
-    res.status(200).json({
-      status: 'Success',
-      massage: 'Country deleted successfully',
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'Country deleted successfully',
+      data: null,
     })
-  } catch (error: any) {
-    console.log(error)
-    next(error)
   }
-}
+)
 
-const getDestinationsByCountry = async (
-  req: Request,
-  res: Response,
-): Promise<void> => {
-  const countryId = req.params.id
-  try {
-    const destinations =
-      await countryServices.getAllDestinationsByCountry(countryId)
-    res.status(200).json(destinations)
-  } catch (error: any) {
-    console.log(error)
-    res.status(500).json({
-      status: 'fail',
-      massage: error.massage || 'Something went wrong',
+const getDestinationsByCountry = catchAsyncFunction(
+  async (req: Request, res: Response) => {
+    const countryId = req.params.id
+    const destinations = await countryServices.getAllDestinationsByCountry(countryId)
+    sendSuccessResponse(res, {
+      statusCode: 200,
+      message: 'Destinations fetched successfully',
+      data: destinations,
     })
   }
-}
+)
 
 export const countryController = {
   createCountry,
