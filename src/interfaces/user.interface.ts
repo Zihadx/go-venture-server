@@ -12,6 +12,7 @@ interface IUser {
   passwordUpdateAt: Date,
   role: 'admin' | 'user'
   status: 'active' | 'inactive'
+  coin: number
 }
 
 export { IUser }

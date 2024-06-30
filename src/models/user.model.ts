@@ -21,7 +21,7 @@ const userSchema = new Schema<IUser>({
   password: {
     type: String,
     required: [true, 'Please provide your password'],
-    select: 0
+    select: 0,
   },
   passwordUpdateAt: {
     type: Date,
@@ -43,6 +43,9 @@ const userSchema = new Schema<IUser>({
     type: String,
     enum: Object.values(ACCOUNT_STATUS),
     default: ACCOUNT_STATUS.active,
+  },
+  coin: {
+    type: Number,
   },
 })
 

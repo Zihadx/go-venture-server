@@ -1,3 +1,4 @@
+import { authRoutes } from "../routes/auth.route";
 import { blogRoutes } from "../routes/blog.route";
 import { bookingRoutes } from "../routes/booking.route";
 import { countryRoutes } from "../routes/country.route";
@@ -7,6 +8,10 @@ import { offerRoutes } from "../routes/offer.route";
 import { userRoutes } from "../routes/user.route";
 
 const routes = [
+    {
+        path: "/auth",
+        route: authRoutes
+    },
     {
         path: "/users",
         route: userRoutes
