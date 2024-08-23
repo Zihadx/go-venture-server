@@ -26,4 +26,4 @@ const countrySchema = new Schema<ICountry>({
   },
 })
 
-export const Counties = mongoose.model<ICountry>('Country', countrySchema)
+export const Countries = mongoose.model<ICountry>('Country', countrySchema)

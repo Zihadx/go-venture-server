@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { countryServices } from '../services/country.service'
 import catchAsyncFunction from '../utils/catchAsync'
 import sendSuccessResponse from '../utils/sendSuccessResponse'
+import { destinationService } from '../services/destination.service'
 
 const createCountry = catchAsyncFunction(
   async (req: Request, res: Response) => {
@@ -27,17 +28,29 @@ const getAllCountries = catchAsyncFunction(
   }
 )
 
+// const getSingleCountry = catchAsyncFunction(
+//   async (req: Request, res: Response) => {
+//     const id = req.params.id
+//     const result = await countryServices.getSingleCountry(id)
+//     sendSuccessResponse(res, {
+//       statusCode: 200,
+//       message: 'Single country fetched successfully',
+//       data: result,
+//     })
+//   }
+// )
+
 const getSingleCountry = catchAsyncFunction(
   async (req: Request, res: Response) => {
-    const id = req.params.id
-    const result = await countryServices.getSingleCountry(id)
+    const id = req.params.id;
+    const country = await countryServices.getCountryById(id);
     sendSuccessResponse(res, {
       statusCode: 200,
-      message: 'Single country fetched successfully',
-      data: result,
-    })
+      message: 'Country fetched successfully',
+      data: country,
+    });
   }
-)
+);
 
 const updateCountry = catchAsyncFunction(
   async (req: Request, res: Response) => {
@@ -64,23 +77,39 @@ const deleteCountry = catchAsyncFunction(
   }
 )
 
-const getDestinationsByCountry = catchAsyncFunction(
-  async (req: Request, res: Response) => {
-    const countryId = req.params.id
-    const destinations = await countryServices.getAllDestinationsByCountry(countryId)
-    sendSuccessResponse(res, {
-      statusCode: 200,
-      message: 'Destinations fetched successfully',
-      data: destinations,
-    })
-  }
-)
+// const getDestinationsByCountry = catchAsyncFunction(
+//   async (req: Request, res: Response) => {
+//     const countryId = req.params.id
+//     const destinations = await countryServices.getAllDestinationsByCountry(countryId)
+//     sendSuccessResponse(res, {
+//       statusCode: 200,
+//       message: 'Destinations fetched successfully',
+//       data: destinations,
+//     })
+//   }
+// )
 
+
+const getCountryWithDestinations = catchAsyncFunction(
+  async (req: Request, res: Response) => {
+      const {id} = req.params;
+      const country = await countryServices.getCountryById(id);
+      const destinations = await destinationService.getDestinationsByCountryId(id);
+      sendSuccessResponse(res, {
+          statusCode: 200,
+          message: 'Country and destinations fetched successfully',
+          data: {
+              country,
+              destinations,
+          },
+      });
+  }
+);
 export const countryController = {
   createCountry,
   getAllCountries,
   getSingleCountry,
   updateCountry,
   deleteCountry,
-  getDestinationsByCountry,
+  getCountryWithDestinations,
 }
