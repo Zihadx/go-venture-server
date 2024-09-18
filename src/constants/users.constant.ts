@@ -5,5 +5,6 @@ export const USER_ROLE ={
 
 export const ACCOUNT_STATUS ={
     active: 'active',
-    inactive: 'inactive'
+    inactive: 'inactive',
+    blocked: "blocked"
 } as const

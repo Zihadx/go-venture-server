@@ -11,7 +11,7 @@ interface IUser {
   password: string,
   passwordUpdateAt: Date,
   role: 'admin' | 'user'
-  status: 'active' | 'inactive'
+  status: 'active' | 'inactive' | 'blocked'
   coin: number
 }
 

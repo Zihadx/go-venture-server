@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { Schema, model } from 'mongoose'
 import { IUser } from '../interfaces/user.interface'
 import { ACCOUNT_STATUS, USER_ROLE } from '../constants/users.constant'
@@ -38,8 +39,8 @@ const userSchema = new Schema<IUser>({
   },
   role: {
     type: String,
+    required: [true, "Role is required"],
     enum: Object.values(USER_ROLE),
-    default: USER_ROLE.user,
   },
   status: {
     type: String,
