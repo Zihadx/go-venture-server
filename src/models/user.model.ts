@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose'
 import { IUser } from '../interfaces/user.interface'
 import { ACCOUNT_STATUS, USER_ROLE } from '../constants/users.constant'
+import bcryptjs from 'bcryptjs'
+import config from '../app/config'
 
 const userSchema = new Schema<IUser>({
   name: {
@@ -47,6 +49,16 @@ const userSchema = new Schema<IUser>({
   coin: {
     type: Number,
   },
+})
+
+userSchema.pre('save', async function (next) {
+  const user = this
+  user.password = await bcryptjs.hash(user.password, Number(config.salt_rounds))
+  next()
+})
+userSchema.post('save', function (doc, next) {
+  doc.password = ''
+  next()
 })
 
 const Users = model<IUser>('Users', userSchema)
