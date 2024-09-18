@@ -4,6 +4,17 @@ import { userServices } from '../services/user.service'
 import catchAsyncFunction from '../utils/catchAsync'
 import sendSuccessResponse from '../utils/sendSuccessResponse'
 
+const createAdmin = catchAsyncFunction(
+  async (req: Request, res: Response) => {
+    const adminData = req.body
+    const result = await userServices.createAdmin(adminData)
+    sendSuccessResponse(res, {
+      statusCode: 201,
+      message: 'Admin created successfully',
+      data: result,
+    })
+  }
+)
 const createUser = catchAsyncFunction(
   async (req: Request, res: Response) => {
     const userData = req.body
@@ -65,6 +76,7 @@ const deleteUser = catchAsyncFunction(
 )
 
 export const userController = {
+  createAdmin,
   createUser,
   getAllUsers,
   getSingleUser,

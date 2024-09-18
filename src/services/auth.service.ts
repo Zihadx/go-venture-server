@@ -29,32 +29,40 @@ const register = async (payload: IRegister) => {
 
 // -----------user login ---------
 const login = async (payload: ILogin) => {
-  // ----user existence check ----------
-  const user = await Users.findOne(payload)
+  // -------------check exist user ----------
+  const user = await Users.findOne({ email: payload.email }).select('+password')
   if (!user) {
     throw new Error('User not found. Please create an account')
   }
 
+  // -------------check user status---------
   if (user.status === 'blocked') {
     throw new Error('user blocked. Please Contact with authority')
   }
 
+  // -------------check password match------
   const passwordMatch = await isPasswordMatched(payload.password, user.password)
-
-
   if (!passwordMatch) {
     throw new Error('Password not matched')
   }
 
+  //------- User authentication and authorization with JWT------
   const jwtPayload: JwtPayload = {
     email: user.email,
     role: user.role,
   }
 
-  const token = jwt.sign(jwtPayload, config.jwt_access_secret, {
+  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret, {
     expiresIn: config.jwt_access_expires_in,
   })
-  return { token }
+  const refreshToken = jwt.sign(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    {
+      expiresIn: config.jwt_refresh_expire_in,
+    },
+  )
+  return { accessToken, refreshToken }
 }
 
 export const authService = {

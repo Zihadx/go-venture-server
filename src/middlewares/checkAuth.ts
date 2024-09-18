@@ -5,33 +5,32 @@ import { USER_ROLE } from '../constants/users.constant'
 import jwt, { JwtPayload } from "jsonwebtoken"
 import config from '../app/config'
 
-const checkAuth = (...roles: Array<keyof typeof USER_ROLE>) => {
+const checkAuth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
   return catchAsyncFunction(
-    async (req: Request, res: Response, next: NextFunction) => {
-     const token= req.headers.authorization
-     console.log(token)
-
-     if(!token){
-      throw new Error("Invalid token")
-     }
-
-     const decodedToken = jwt.verify(token, config.jwt_access_secret)
-
-     console.log(decodedToken)
-
-     const {email}= decodedToken as JwtPayload
-     
-      const user = await Users.findOne({ email})
-      //   Authentications
-      if (!user) {
-        throw new Error('Invalid email or password')
+    async (req: Request, res:Response, next:NextFunction) => {
+      try {
+        const token = req.headers.authorization
+        const verifiedToken = jwt.verify(
+          token as string,
+          config.jwt_access_secret,
+        )
+        const { role, email } = verifiedToken as JwtPayload
+  
+        const user = await Users.findOne({ email })
+  
+        if (!user) {
+          throw new Error('Your are not authorize to create Admin')
+        }
+        if(user.status === "blocked"){
+          throw new Error("User Blocked")
+        }
+        if (!requiredRoles.includes(role)) {
+          throw new Error('Your are not authorize to create Admin')
+        }
+        next()
+      } catch (error) {
+        next(error)
       }
-      // Authorization
-      if (!roles.includes(user?.role)) {
-        throw new Error('You are not authorize to create user')
-      }
-
-      next()
     },
   )
 }
