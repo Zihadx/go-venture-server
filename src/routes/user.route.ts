@@ -13,12 +13,11 @@ router.post(
 
 router.post(
   '/create-user',
-  checkAuth(USER_ROLE.admin, USER_ROLE.superAdmin),
   userController.createUser,
 )
 router.get(
   '/',
-  checkAuth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  // checkAuth(USER_ROLE.admin, USER_ROLE.superAdmin,),
   userController.getAllUsers,
 )
 router.get(

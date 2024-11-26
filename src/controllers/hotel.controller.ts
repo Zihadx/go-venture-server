@@ -9,7 +9,7 @@ const createHotel = async (req: Request, res: Response, next: NextFunction) => {
     const result = await hotelService.createHotel(hotelData)
     res.status(201).json({
       status: 'Success',
-      massage: 'Hotel Created successfully',
+      message: 'Hotel Created successfully',
       data: result,
     })
   } catch (error: any) {
@@ -23,7 +23,7 @@ const getAllHotel = async (req: Request, res: Response, next: NextFunction) => {
     const result = await hotelService.getAllHotel()
     res.status(200).json({
       status: 'Success',
-      massage: 'Hotel fetched successfully',
+      message: 'Hotel fetched successfully',
       data: result,
     })
   } catch (error: any) {
@@ -42,7 +42,7 @@ const getSingleHotel = async (
     const result = await hotelService.getSingleHotel(id)
     res.status(200).json({
       status: 'Success',
-      massage: 'Single Hotel fetched successfully',
+      message: 'Single Hotel fetched successfully',
       data: result,
     })
   } catch (error: any) {
@@ -58,7 +58,7 @@ const updateHotel = async (req: Request, res: Response, next: NextFunction) => {
     const result = await hotelService.updateHotel(id, userData)
     res.status(201).json({
       status: 'Success',
-      massage: 'Hotel updated successfully',
+      message: 'Hotel updated successfully',
       data: result,
     })
   } catch (error: any) {
@@ -73,7 +73,7 @@ const deleteHotel = async (req: Request, res: Response, next: NextFunction) => {
     await hotelService.deleteHotel(id)
     res.status(200).json({
       status: 'Success',
-      massage: 'Hotel deleted successfully',
+      message: 'Hotel deleted successfully',
     })
   } catch (error: any) {
     console.log(error)

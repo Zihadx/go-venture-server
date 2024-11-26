@@ -8,8 +8,6 @@ import config from '../app/config'
 const userSchema = new Schema<IUser>({
   name: {
     type: String,
-    required: [true, 'Please tell us your name'],
-    unique: true,
   },
   email: {
     type: String,
@@ -19,7 +17,6 @@ const userSchema = new Schema<IUser>({
   },
   age: {
     type: Number,
-    required: [true, 'Please tell your age'],
   },
   password: {
     type: String,
@@ -33,7 +30,6 @@ const userSchema = new Schema<IUser>({
   profileInfo: {
     phoneNumber: {
       type: String,
-      required: [true, 'Please provide your phone'],
     },
     profilePicture: String,
   },
@@ -41,6 +37,7 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: [true, "Role is required"],
     enum: Object.values(USER_ROLE),
+    default: USER_ROLE.user
   },
   status: {
     type: String,

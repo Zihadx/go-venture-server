@@ -10,6 +10,10 @@ const checkAuth = (...requiredRoles: (keyof typeof USER_ROLE)[]) => {
     async (req: Request, res:Response, next:NextFunction) => {
       try {
         const token = req.headers.authorization
+        if(!token){
+          throw new Error("Invalid Token")
+        }
+        
         const verifiedToken = jwt.verify(
           token as string,
           config.jwt_access_secret,

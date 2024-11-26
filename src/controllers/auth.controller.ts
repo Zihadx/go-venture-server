@@ -4,6 +4,7 @@ import catchAsyncFunction from '../utils/catchAsync'
 import sendSuccessResponse from '../utils/sendSuccessResponse'
 import config from '../app/config'
 
+//-------- user register-----------
 const register = catchAsyncFunction(async (req: Request, res: Response) => {
   const result = await authService.register(req.body)
   sendSuccessResponse(res, {
@@ -12,6 +13,8 @@ const register = catchAsyncFunction(async (req: Request, res: Response) => {
     data: result,
   })
 })
+
+// --------user login -------------
 const login = catchAsyncFunction(async (req: Request, res: Response) => {
   const { accessToken, refreshToken } = await authService.login(req.body)
 
