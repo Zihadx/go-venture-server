@@ -50,6 +50,7 @@ const login = async (payload: ILogin) => {
 
   //------- User authentication and JWT issuance ------
   const jwtPayload: JwtPayload = {
+    name: user.name,
     id: user._id, // Added user ID to JWT payload
     email: user.email,
     role: user.role,
