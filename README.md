@@ -3,7 +3,7 @@ Ready to Explore? Go-Venture Connects You with Exquisite Destinations at Excepti
 
 # Go-Venture Backend
 
-This is the backend server for the Go-Venture travel booking platform. It provides RESTful API endpoints for managing travel packages, user authentication, and bookings.
+This is the backend server for the Go-Venture travel booking platform. It provides RESTful API endpoints for managing travel packages, user authentication, and bookings management.
 
 ## Status
 **This project is currently under development.** Features and APIs may change as the project evolves.
