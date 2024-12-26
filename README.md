@@ -10,7 +10,7 @@ This is the backend server for the Go-Venture travel booking platform. It provid
 
 ## Features
 - RESTful API for managing travel packages, bookings, and users.
-- Secure user authentication using JWT.
+- Secure user authentication using JWT, Social login with nextAuth.
 - Data storage with MongoDB.
 
 ## Technologies Used
